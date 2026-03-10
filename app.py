@@ -1399,19 +1399,19 @@ if _action_plan:
     _cell_base = 'padding:6px 6px;font-size:0.78rem;color:#323232;border-bottom:1px solid #EBE8E4;overflow:hidden;word-wrap:break-word;'
 
     # Sort by status, then by Date Implemented (most recent first)
-    def _parse_impl_date_live(row):
+    def _parse_impl_date_ordinal(row):
         val = str(row.get('Date Implemented', '') or '').strip()
         if not val:
-            return datetime(1900, 1, 1)
+            return 0
         for fmt in ('%d/%m/%Y', '%Y-%m-%d', '%d-%m-%Y', '%d %b %Y', '%d %B %Y'):
             try:
-                return datetime.strptime(val, fmt)
+                return datetime.strptime(val, fmt).toordinal()
             except ValueError:
                 continue
-        return datetime(1900, 1, 1)
+        return 0
     _sorted_plan = sorted(range(len(_action_plan)),
                           key=lambda i: (_STATUS_ORDER.get(_action_plan[i].get('Status') or '', 3),
-                                         -_parse_impl_date_live(_action_plan[i]).timestamp()))
+                                         -_parse_impl_date_ordinal(_action_plan[i])))
 
     # Header row
     _hdr_cells = ''
