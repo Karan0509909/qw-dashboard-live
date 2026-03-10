@@ -1398,9 +1398,20 @@ if _action_plan:
               'Owner': '6%', 'Due Date': '6%', 'Notes': '12%', 'Status': '8%'}
     _cell_base = 'padding:6px 6px;font-size:0.78rem;color:#323232;border-bottom:1px solid #EBE8E4;overflow:hidden;word-wrap:break-word;'
 
-    # Sort by status
+    # Sort by status, then by Date Implemented (most recent first)
+    def _parse_impl_date_live(row):
+        val = str(row.get('Date Implemented', '') or '').strip()
+        if not val:
+            return datetime(1900, 1, 1)
+        for fmt in ('%d/%m/%Y', '%Y-%m-%d', '%d-%m-%Y', '%d %b %Y', '%d %B %Y'):
+            try:
+                return datetime.strptime(val, fmt)
+            except ValueError:
+                continue
+        return datetime(1900, 1, 1)
     _sorted_plan = sorted(range(len(_action_plan)),
-                          key=lambda i: _STATUS_ORDER.get(_action_plan[i].get('Status') or '', 3))
+                          key=lambda i: (_STATUS_ORDER.get(_action_plan[i].get('Status') or '', 3),
+                                         -_parse_impl_date_live(_action_plan[i]).timestamp()))
 
     # Header row
     _hdr_cells = ''
