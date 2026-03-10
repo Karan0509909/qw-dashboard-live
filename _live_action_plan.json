@@ -1,0 +1,250 @@
+[
+  {
+    "Date Added": "17/02/2026",
+    "Product": "Eto Table",
+    "Issue": "Damaged / Scratched",
+    "Category": "Timber",
+    "Root Cause": "Packaging design deficiency - inadequate product restraint within packaging allowing movement, resulting in surface damage and scratching",
+    "Corrective Action": "Two-stage packaging redesign: Phase 1 (Oct 2025) - replaced EPE foam with honeycomb structure to improve product restraint. Phase 2 - implemented leg immobilization features to prevent component movement and eliminate scratch defects.",
+    "Date Implemented": "10/02/2026",
+    "Owner": "",
+    "Due Date": "",
+    "Notes": "Phase 1 implementation reduced defect rate from 3 units/day to 1 unit/week. Phase 2 packaging reinforcement addresses residual minor scratch occurrences.",
+    "Status": "Implemented",
+    "Images": [
+      "action_3_0.png"
+    ]
+  },
+  {
+    "Date Added": "17/02/2026",
+    "Product": "Jasper Shelf",
+    "Issue": "Scratched, Colour variation",
+    "Category": "Timber",
+    "Root Cause": "Inadequate incoming material inspection at supplier stage and insufficient in-process inspection at GL factory. Contributing factor: packaging design allowing product movement.",
+    "Corrective Action": "Implemented 100% visual inspection protocol at supplier and GL facility. Expected gradual defect rate reduction as process control matures.",
+    "Date Implemented": "01/01/2026",
+    "Owner": "",
+    "Due Date": "",
+    "Notes": "KFT incoming QC inspection gate for Jasper shelf components demonstrating significant reduction in inspection failure rate. Overall Radaro quality incidents attributed to Jasper shelf finish defects showing measurable improvement.",
+    "Status": "Implemented",
+    "Images": [
+      "action_4_0.png"
+    ]
+  },
+  {
+    "Date Added": "17/02/2026",
+    "Product": "Roma/Dainelli",
+    "Issue": "Cracking, Bubbling",
+    "Category": "Timber",
+    "Root Cause": "Warehouse inventory control deficiency - damaged legacy stock remains in active inventory without segregation or dispositioning",
+    "Corrective Action": "Supplier packaging redesign implemented for new production. Warehouse stock requires 100% inspection with non-conforming inventory disposition to clearance channel rather than customer shipment. Issue escalated to Shane and Tony for warehouse inventory dispositioning.",
+    "Date Implemented": null,
+    "Owner": "",
+    "Due Date": "",
+    "Notes": "Warehouse inventory requires inspection audit with damaged stock removed from customer-available inventory and redirected to clearance disposition",
+    "Status": "In Process",
+    "Images": []
+  },
+  {
+    "Date Added": "26/02/2026",
+    "Product": "All Timber Product",
+    "Issue": null,
+    "Category": "Timber",
+    "Root Cause": "Inspection process non-conformance - multiple products inspected against obsolete quality standards. Traceability system deficiency - no supplier-level defect attribution capability.",
+    "Corrective Action": "None",
+    "Date Implemented": null,
+    "Owner": null,
+    "Due Date": null,
+    "Notes": "None",
+    "Status": null,
+    "Images": []
+  },
+  {
+    "Date Added": "20/02/2026",
+    "Product": "All Metal Products",
+    "Issue": "Rust / Corrosion",
+    "Category": "Structural",
+    "Root Cause": "Material handling equipment degradation - corrosion transfer from rusted storage trolleys to sofa frame assemblies during in-process handling at GL facility",
+    "Corrective Action": "All material handling trolleys upgraded with hot-dip galvanized surface treatment to eliminate corrosion transfer risk. Established visual inspection gates post-welding and at assembly stage.",
+    "Date Implemented": "01/01/2026",
+    "Owner": "",
+    "Due Date": "",
+    "Notes": "Process controls expected to substantially reduce corrosion-related defects",
+    "Status": "Implemented",
+    "Images": [
+      "action_7_0.png"
+    ]
+  },
+  {
+    "Date Added": "20/02/2026",
+    "Product": "King Cove",
+    "Issue": "Backrest Breaking",
+    "Category": "Structural",
+    "Root Cause": "Design deficiency - bracket and fastening connection insufficient to withstand anticipated load conditions during backrest use",
+    "Corrective Action": "Engineering change implemented - backrest bracket redesigned with increased load-bearing capacity and reinforced connection method",
+    "Date Implemented": "01/12/2025",
+    "Owner": "",
+    "Due Date": "",
+    "Notes": "None",
+    "Status": "Implemented",
+    "Images": [
+      "action_8_0.png",
+      "action_8_1.png"
+    ]
+  },
+  {
+    "Date Added": "20/02/2026",
+    "Product": "Roma / Dainelli",
+    "Issue": "Misalignment",
+    "Category": "Structural",
+    "Root Cause": "Component specification inadequacy - hinge load capacity insufficient to support door weight, resulting in misalignment during transit and installation",
+    "Corrective Action": "Component upgrade implemented - replaced hinges with higher load-bearing specification across all door products. Validation testing completed. Note: Smithfield warehouse contains legacy inventory with previous specification. New specification applied to all Dune product line.",
+    "Date Implemented": "01/12/2025",
+    "Owner": "",
+    "Due Date": "",
+    "Notes": "Implemented for all new production batches and new product lines",
+    "Status": "Implemented",
+    "Images": [
+      "action_9_0.png"
+    ]
+  },
+  {
+    "Date Added": "26/02/2026",
+    "Product": "Quay Dining Chair",
+    "Issue": "Missing Knockings",
+    "Category": "Structural",
+    "Root Cause": "Component design deficiency - knocking retention mechanism inadequate to withstand handling forces during delivery operations and seat frame removal. Multiple field failures reported by delivery personnel and customers indicating systematic design inadequacy.",
+    "Corrective Action": "Engineering change implemented - knocking retention mechanism redesigned. Validation testing completed through multiple seat removal and reinstallation cycles confirming adequate strength and retention under operational conditions.",
+    "Date Implemented": "22/12/2025",
+    "Owner": null,
+    "Due Date": null,
+    "Notes": "None",
+    "Status": "Implemented",
+    "Images": [
+      "action_10_0.png",
+      "action_10_1.png"
+    ]
+  },
+  {
+    "Date Added": "26/02/2026",
+    "Product": "Quay Outdoor Chair",
+    "Issue": "Rust/Corrosion",
+    "Category": "Structural",
+    "Root Cause": "Design deficiency - leg tube specification lacks drain hole, causing E-coat process liquid entrapment and subsequent leakage post-coating",
+    "Corrective Action": "Engineering drawing revision issued incorporating drain hole feature. Established post-coating inspection checkpoint - QC inspector verifies drain hole presence and liquid evacuation compliance.",
+    "Date Implemented": "08/01/2026",
+    "Owner": null,
+    "Due Date": null,
+    "Notes": "None",
+    "Status": "Implemented",
+    "Images": [
+      "action_11_0.png",
+      "action_11_1.png",
+      "action_11_2.png"
+    ]
+  },
+  {
+    "Date Added": "18/02/2026",
+    "Product": "Cushions in Non-Woven Bag\nTop Contributor of Fabric Issues",
+    "Issue": "Stain / Marks",
+    "Category": "Fabric",
+    "Root Cause": "Packaging material deficiency - 70GSM non-woven protective bags inadequate to prevent contamination transfer to cushion covers during warehouse handling, staging, and delivery operations. Average defect rate: 3 units/day. Issue escalated to Ben & Miao 18/11/2025. Contributing factor: inadequate material handling practices at warehouse and delivery stages resulting in increased cost of quality (rework/cleaning) and production capacity loss (remakes).",
+    "Corrective Action": "Two-phase CAPA: (1) Packaging specification revision - increase non-woven bag material from 70GSM to 150GSM. (2) Establish improved material handling protocols for warehouse operations and delivery personnel.",
+    "Date Implemented": "",
+    "Owner": "",
+    "Due Date": "",
+    "Notes": "Packaging material upgrade will provide containment action; however, sustained defect reduction requires implementation of improved handling procedures by warehouse and delivery operations.",
+    "Status": "Under Investigation",
+    "Images": [
+      "action_1_0.png",
+      "action_1_1.png",
+      "action_11_2.png",
+      "action_11_3.png",
+      "action_11_4.jpg"
+    ]
+  },
+  {
+    "Date Added": "25/02/2026",
+    "Product": "All Products",
+    "Issue": "Stain / Marks",
+    "Category": "Fabric",
+    "Root Cause": "Equipment maintenance deficiency - conveyor bridge components in degraded condition causing contact marking on product during in-process transport",
+    "Corrective Action": "Conveyor bridge configuration redesigned and implemented. In-process QC monitoring established to verify no contact marking occurs during transport.",
+    "Date Implemented": "30 Jan 2026",
+    "Owner": "Factory ME Team",
+    "Due Date": null,
+    "Notes": "Equipment modification provides preventive measure. Manufacturing Engineering team established preventive maintenance schedule to sustain equipment condition.",
+    "Status": "Implemented",
+    "Images": [
+      "action_2_0.png",
+      "action_2_1.png"
+    ]
+  },
+  {
+    "Date Added": "04/03/2026",
+    "Product": "All Products",
+    "Issue": "Stain / Marks",
+    "Category": "Fabric",
+    "Root Cause": "Process non-conformance - loading team using red marker directly on non-woven protective bags causing ink bleed-through and contamination transfer to cushion surfaces",
+    "Corrective Action": "Immediate containment action: red marker usage discontinued. Revised work instruction: marking permitted on labels only. Random inspection audit protocol established to verify compliance.",
+    "Date Implemented": "04 March 2026",
+    "Owner": "Factory Loading Team / Jing / Tommy",
+    "Due Date": null,
+    "Notes": "Factory implementing ongoing compliance audits with permanent red marker elimination",
+    "Status": "Implemented",
+    "Images": []
+  },
+  {
+    "Date Added": "18/02/2026",
+    "Product": "Jasper, Delta, Max, 1977",
+    "Issue": "Missing Parts- Legs",
+    "Category": "Delivery",
+    "Root Cause": "ERP/planning system deficiency resulting in component allocation non-conformance - leg components allocated to different manufacturing facility than corresponding frame assemblies",
+    "Corrective Action": "Implemented 3-point verification checkpoint at master planning stage. Established secondary verification gate at GL factory planning level. Deployed operator-level and in-process QC inspection specific to leg component matching at China facility.",
+    "Date Implemented": "10/02/2026",
+    "Owner": "",
+    "Due Date": "",
+    "Notes": "Multi-stage process controls expected to significantly reduce missing component non-conformances over subsequent months",
+    "Status": "Implemented",
+    "Images": [
+      "action_0_0.png"
+    ]
+  },
+  {
+    "Date Added": "02/03/2026",
+    "Product": "Oasis",
+    "Issue": "Damaged on Delivery",
+    "Category": "Delivery",
+    "Root Cause": "Packaging design deficiency - EPE foam cushioning inadequate structural strength, loose packaging configuration allowing product movement resulting in transit damage",
+    "Corrective Action": "Packaging redesign implemented - multi-layer protection system utilizing EPE foam + rigid board frame + exterior carton for enhanced structural integrity and product restraint",
+    "Date Implemented": "02/03/2026",
+    "Owner": null,
+    "Due Date": null,
+    "Notes": "Week 2607",
+    "Status": "Implemented",
+    "Images": [
+      "action_12_0.png",
+      "action_12_1.png",
+      "action_12_2.png",
+      "action_12_3.png"
+    ]
+  },
+  {
+    "Date Added": "04/03/2026",
+    "Product": "All Products",
+    "Issue": "Damaged on Delivery",
+    "Category": "Delivery",
+    "Root Cause": "Equipment contamination - hydraulic oil leakage from turret mast causing product surface contamination during material handling operations",
+    "Corrective Action": "Containment action: staging area 100% inspection protocol initiated to identify contaminated units. Non-conforming product (damaged bags, scuff marks, oil contamination) segregated to refurbishment for cleaning and repackaging. Preventive measure: turret equipment maintenance to identify and eliminate oil leakage source.",
+    "Date Implemented": "04/03/2026",
+    "Owner": "Warehouse + Drivers",
+    "Due Date": null,
+    "Notes": "None",
+    "Status": "In Process",
+    "Images": [
+      "action_14_0.jpeg",
+      "action_14_1.jpeg",
+      "action_14_2.jpeg"
+    ]
+  }
+]

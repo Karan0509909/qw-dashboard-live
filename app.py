@@ -28,17 +28,29 @@ st.set_page_config(
 _APP_DIR = os.path.dirname(os.path.abspath(__file__))
 _DATA_PKL = os.path.join(_APP_DIR, '_live_data.pkl')
 _SALES_PKL = os.path.join(_APP_DIR, '_live_sales.pkl')
+_TIMING_PKL = os.path.join(_APP_DIR, '_live_timing.pkl')
+_ACTION_PLAN_FILE = os.path.join(_APP_DIR, '_live_action_plan.json')
 _CONFIG_FILE = os.path.join(_APP_DIR, 'live_config.json')
 
 # ════════════════════════════════════════════
-# CONFIG
+# CONFIG — credentials from Streamlit Secrets, pages from config file
 # ════════════════════════════════════════════
 def _load_config():
+    """Load page config from file, credentials from Streamlit Secrets."""
+    # Pages list from config file
     try:
         with open(_CONFIG_FILE, 'r') as f:
-            return json.load(f)
+            cfg = json.load(f)
     except Exception:
-        return {"pages": ["Executive Summary"], "users": {}}
+        cfg = {"pages": ["Executive Summary"]}
+    # Users from Streamlit Secrets (secure, not in GitHub)
+    try:
+        cfg['users'] = dict(st.secrets['users'])
+    except Exception:
+        # Fallback to config file for local dev
+        if 'users' not in cfg:
+            cfg['users'] = {}
+    return cfg
 
 _CONFIG = _load_config()
 
@@ -1207,3 +1219,231 @@ if _exec_hm_rows:
         <tbody>{_ebody}</tbody>
         </table></div>''', unsafe_allow_html=True)
     st.caption("Color intensity = case count. Arrows show change from previous month.")
+
+# ═══════════════════════════════════════
+# Case Timing vs Delivery Analysis
+# ═══════════════════════════════════════
+section_divider()
+
+_timing_data = None
+if os.path.exists(_TIMING_PKL):
+    try:
+        with open(_TIMING_PKL, 'rb') as _tf:
+            _timing_data = pickle.load(_tf)
+    except Exception:
+        pass
+
+if _timing_data:
+    _t = _timing_data
+    _match_pct = _t['matched'] / max(_t['total'], 1) * 100
+
+    _cls_colors = {'At Delivery': BLUE, 'Within 6 Months': GREEN, '6-12 Months': ORANGE, 'Over 12 Months': RED, 'No Match': '#CCCCCC'}
+    _cls_order = ['At Delivery', 'Within 6 Months', '6-12 Months', 'Over 12 Months', 'No Match']
+
+    # Header with badge
+    st.markdown(f'''<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+            <span style="font-size:1.15rem;font-weight:700;color:{NAVY};">Case Timing vs Delivery Date</span>
+            <span style="background:{GREEN};color:#fff;padding:3px 12px;border-radius:14px;font-size:0.72rem;font-weight:600;">
+                {_match_pct:.0f}% matched</span>
+        </div>
+        <span style="font-size:0.72rem;color:#999;">{_t['total']:,} cases analysed</span>
+    </div>''', unsafe_allow_html=True)
+
+    # Donut charts + comparison table side by side
+    _tc_chart, _tc_detail = st.columns([2, 3])
+
+    with _tc_chart:
+        _donut_fig = make_subplots(rows=1, cols=2, specs=[[{'type': 'pie'}, {'type': 'pie'}]],
+                                   subplot_titles=[f'Warranty ({_t["warranty_total"]})', f'Delivery ({_t["delivery_total"]})'])
+
+        for _di, (_d_cls, _d_tot, _d_mean, _d_med) in enumerate([
+            (_t['warranty_cls'], _t['warranty_total'], _t['w_mean'], _t['w_med']),
+            (_t['delivery_cls'], _t['delivery_total'], _t['d_mean'], _t['d_med']),
+        ]):
+            _d_labels = [c for c in _cls_order if _d_cls.get(c, 0) > 0]
+            _d_values = [_d_cls.get(c, 0) for c in _d_labels]
+            _d_colors = [_cls_colors[c] for c in _d_labels]
+            _donut_fig.add_trace(go.Pie(
+                labels=_d_labels, values=_d_values,
+                marker=dict(colors=_d_colors),
+                hole=0.55, textinfo='percent', textfont=dict(size=11, color='white'),
+                hovertemplate='%{label}<br>%{value} cases (%{percent})<extra></extra>',
+                sort=False,
+            ), row=1, col=_di + 1)
+
+        _donut_fig.add_annotation(text=f'<b>{_t["w_med"]}d</b><br><span style="font-size:9px">median</span>',
+            x=0.19, y=0.5, font=dict(size=14, color=NAVY), showarrow=False, xref='paper', yref='paper')
+        _donut_fig.add_annotation(text=f'<b>{_t["d_med"]}d</b><br><span style="font-size:9px">median</span>',
+            x=0.81, y=0.5, font=dict(size=14, color=NAVY), showarrow=False, xref='paper', yref='paper')
+
+        _donut_fig.update_layout(
+            height=260, margin=dict(l=10, r=10, t=30, b=10),
+            paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+            font=dict(family='Calibri', color='#323232'),
+            showlegend=False,
+        )
+        st.plotly_chart(_donut_fig, width="stretch")
+
+        # Shared legend
+        _legend_html = '<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;margin-top:2px;">'
+        for _cl in _cls_order:
+            if _t['overall'].get(_cl, 0) > 0:
+                _legend_html += (f'<span style="display:inline-flex;align-items:center;gap:4px;">'
+                                 f'<span style="width:10px;height:10px;border-radius:50%;background:{_cls_colors[_cl]};"></span>'
+                                 f'<span style="font-size:0.72rem;color:#555;">{_cl}</span></span>')
+        _legend_html += '</div>'
+        st.markdown(_legend_html, unsafe_allow_html=True)
+
+    with _tc_detail:
+        # Comparison table
+        _tbl_rows = ''
+        for _cl in _cls_order:
+            _w_cnt = _t['warranty_cls'].get(_cl, 0)
+            _d_cnt = _t['delivery_cls'].get(_cl, 0)
+            _w_pct = _w_cnt / max(_t['warranty_total'], 1) * 100
+            _d_pct = _d_cnt / max(_t['delivery_total'], 1) * 100
+            _tot_cnt = _t['overall'].get(_cl, 0)
+            _tot_pct = _tot_cnt / max(_t['total'], 1) * 100
+            _clr = _cls_colors[_cl]
+            _tbl_rows += f'''<tr style="border-bottom:1px solid #F0EDE8;">
+                <td style="padding:7px 10px;white-space:nowrap;">
+                    <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:{_clr};margin-right:6px;vertical-align:middle;"></span>
+                    <span style="font-size:0.82rem;font-weight:600;color:{NAVY};">{_cl}</span>
+                </td>
+                <td style="padding:7px 10px;text-align:center;font-size:0.85rem;font-weight:700;color:{NAVY};">{_w_cnt}</td>
+                <td style="padding:7px 10px;text-align:center;font-size:0.8rem;color:#888;">{_w_pct:.1f}%</td>
+                <td style="padding:7px 10px;text-align:center;font-size:0.85rem;font-weight:700;color:{NAVY};">{_d_cnt}</td>
+                <td style="padding:7px 10px;text-align:center;font-size:0.8rem;color:#888;">{_d_pct:.1f}%</td>
+                <td style="padding:7px 10px;text-align:center;font-size:0.85rem;font-weight:700;color:{NAVY};">{_tot_cnt}</td>
+                <td style="padding:7px 10px;text-align:center;font-size:0.8rem;color:#888;">{_tot_pct:.1f}%</td>
+            </tr>'''
+
+        st.markdown(f'''<div style="background:white;border:1px solid #E2DAD0;border-radius:10px;overflow:hidden;">
+            <table style="width:100%;border-collapse:collapse;">
+                <tr style="background:{NAVY};">
+                    <td style="padding:8px 10px;font-size:0.72rem;color:{GOLD};font-weight:600;text-transform:uppercase;letter-spacing:0.3px;">Classification</td>
+                    <td style="padding:8px 10px;text-align:center;font-size:0.72rem;color:{GOLD};font-weight:600;" colspan="2">Warranty ({_t['warranty_total']})</td>
+                    <td style="padding:8px 10px;text-align:center;font-size:0.72rem;color:{GOLD};font-weight:600;" colspan="2">Delivery ({_t['delivery_total']})</td>
+                    <td style="padding:8px 10px;text-align:center;font-size:0.72rem;color:{GOLD};font-weight:600;" colspan="2">Total ({_t['total']})</td>
+                </tr>
+                {_tbl_rows}
+                <tr style="background:#F8F6F3;border-top:2px solid {GOLD};">
+                    <td style="padding:8px 10px;font-size:0.78rem;font-weight:700;color:{NAVY};">Avg. Days to Case</td>
+                    <td style="padding:8px 10px;text-align:center;font-size:0.92rem;font-weight:700;color:{RED};" colspan="2">{_t['w_mean']}d <span style="font-size:0.7rem;font-weight:400;color:#888;">(med: {_t['w_med']}d)</span></td>
+                    <td style="padding:8px 10px;text-align:center;font-size:0.92rem;font-weight:700;color:{GREEN};" colspan="2">{_t['d_mean']}d <span style="font-size:0.7rem;font-weight:400;color:#888;">(med: {_t['d_med']}d)</span></td>
+                    <td style="padding:8px 10px;" colspan="2"></td>
+                </tr>
+            </table>
+        </div>''', unsafe_allow_html=True)
+
+    # Products with latent issues
+    if _t.get('prod_stats'):
+        st.markdown(f'''<div style="margin-top:14px;">
+            <div style="font-size:0.72rem;color:{GOLD};font-weight:600;text-transform:uppercase;
+                letter-spacing:0.5px;margin-bottom:6px;">Products with Highest Latent Issues (Over 12 Months)</div>
+        </div>''', unsafe_allow_html=True)
+        _lat_html = ''
+        for _ps in _t['prod_stats'][:6]:
+            _sev_clr = RED if _ps['pct'] >= 40 else (ORANGE if _ps['pct'] >= 25 else NAVY)
+            _bar_w = min(int(_ps['pct']), 100)
+            _lat_html += f'''<div style="display:inline-block;vertical-align:top;background:white;
+                border:1px solid #E0E0E0;border-left:4px solid {_sev_clr};border-radius:8px;
+                padding:10px 14px;margin:4px 6px;min-width:170px;max-width:200px;">
+                <div style="font-size:0.82rem;font-weight:700;color:{NAVY};">{_ps['product']}</div>
+                <div style="display:flex;align-items:baseline;gap:6px;margin:4px 0;">
+                    <span style="font-size:1.3rem;font-weight:700;color:{_sev_clr};">{_ps['over12']}</span>
+                    <span style="font-size:0.72rem;color:#888;">of {_ps['total']} ({_ps['pct']:.0f}%)</span>
+                </div>
+                <div style="width:100%;height:5px;background:#EEE;border-radius:3px;">
+                    <div style="width:{_bar_w}%;height:5px;background:{_sev_clr};border-radius:3px;"></div>
+                </div>
+                <div style="font-size:0.68rem;color:#AAA;margin-top:3px;">median {_ps['median_days']}d after delivery</div>
+            </div>'''
+        st.markdown(f'<div style="overflow-x:auto;white-space:nowrap;">{_lat_html}</div>', unsafe_allow_html=True)
+
+# ═══════════════════════════════════════
+# Corrective Action Plan (Read-Only)
+# ═══════════════════════════════════════
+section_divider()
+
+_action_plan = []
+if os.path.exists(_ACTION_PLAN_FILE):
+    try:
+        with open(_ACTION_PLAN_FILE, 'r') as _apf:
+            _action_plan = json.load(_apf)
+    except Exception:
+        pass
+
+if _action_plan:
+    st.markdown(f'''<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+        <span style="font-size:1.15rem;font-weight:700;color:{NAVY};">Corrective Action Plan</span>
+        <span style="background:{GOLD};color:{NAVY};padding:3px 12px;border-radius:14px;font-size:0.72rem;font-weight:600;">
+            {len(_action_plan)} items</span>
+    </div>''', unsafe_allow_html=True)
+
+    _STATUS_COLORS = {
+        'Implemented': ('#27AE60', '#FFFFFF'), 'In Process': ('#E67E22', '#FFFFFF'),
+        'Under Investigation': ('#F1948A', '#FFFFFF'),
+    }
+    _CAT_CELL_COLORS = {
+        'Structural': '#C0392B', 'Fabric': '#E67E22', 'Delivery': '#2980B9',
+        'Electrical': '#16A085', 'Timber': '#C6B5A1', 'Leather': '#8E44AD',
+    }
+    _STATUS_ORDER = {'Implemented': 0, 'In Process': 1, 'Under Investigation': 2}
+    _display_cols = ['Date Added', 'Product', 'Issue', 'Category', 'Root Cause',
+                     'Corrective Action', 'Date Implemented', 'Owner', 'Due Date', 'Notes', 'Status']
+    _col_w = {'Date Added': '7%', 'Product': '8%', 'Issue': '8%', 'Category': '6%',
+              'Root Cause': '14%', 'Corrective Action': '16%', 'Date Implemented': '7%',
+              'Owner': '6%', 'Due Date': '6%', 'Notes': '12%', 'Status': '8%'}
+    _cell_base = 'padding:6px 6px;font-size:0.78rem;color:#323232;border-bottom:1px solid #EBE8E4;overflow:hidden;word-wrap:break-word;'
+
+    # Sort by status
+    _sorted_plan = sorted(range(len(_action_plan)),
+                          key=lambda i: _STATUS_ORDER.get(_action_plan[i].get('Status') or '', 3))
+
+    # Header row
+    _hdr_cells = ''
+    for _col in _display_cols:
+        _hdr_cells += (f'<div style="width:{_col_w[_col]};padding:8px 6px;color:#FFF;font-size:0.76rem;'
+                       f'font-weight:600;white-space:nowrap;">{_col}</div>')
+    st.markdown(f'<div style="display:flex;background:#1B2A4A;border-bottom:2px solid #C6B5A1;'
+                f'border-radius:6px 6px 0 0;">{_hdr_cells}</div>', unsafe_allow_html=True)
+
+    # Data rows
+    _even_bg, _odd_bg = '#FFFFFF', '#F7F6F4'
+    for _ri, _si in enumerate(_sorted_plan):
+        _r = _action_plan[_si]
+        _bg = _even_bg if _ri % 2 == 0 else _odd_bg
+        _cells_html = ''
+        for _col in _display_cols:
+            _val = str(_r.get(_col, '') or '').strip()
+            if _col == 'Status':
+                _sbg, _sfg = _STATUS_COLORS.get(_val, ('#C0392B', '#FFFFFF'))
+                _slbl = _val if _val else 'Not Started'
+                _cells_html += (f'<div style="width:{_col_w[_col]};padding:6px 4px;text-align:center;'
+                                f'font-size:0.76rem;font-weight:600;background:{_sbg};color:{_sfg};'
+                                f'border-bottom:1px solid #EBE8E4;border-radius:3px;white-space:nowrap;">{_slbl}</div>')
+            elif _col == 'Category':
+                _cc = _CAT_CELL_COLORS.get(_val, '#1B2A4A')
+                _cells_html += (f'<div style="width:{_col_w[_col]};padding:6px 4px;text-align:center;'
+                                f'font-size:0.76rem;font-weight:600;background:{_cc};color:#FFF;'
+                                f'border-bottom:1px solid #EBE8E4;border-radius:3px;white-space:nowrap;">{_val or "—"}</div>')
+            elif _col == 'Due Date' and _val:
+                _dd_overdue = False
+                try:
+                    for _fmt in ('%d/%m/%Y', '%Y-%m-%d', '%d-%m-%Y'):
+                        try:
+                            _dd_overdue = datetime.strptime(_val, _fmt).date() < datetime.now().date()
+                            break
+                        except ValueError:
+                            continue
+                except Exception:
+                    pass
+                _dd_c = '#C0392B' if _dd_overdue else '#323232'
+                _dd_w = 'font-weight:700;' if _dd_overdue else ''
+                _cells_html += (f'<div style="width:{_col_w[_col]};{_cell_base}color:{_dd_c};{_dd_w}">{_val}</div>')
+            else:
+                _cells_html += (f'<div style="width:{_col_w[_col]};{_cell_base}">{_val or "—"}</div>')
+        st.markdown(f'<div style="display:flex;background:{_bg};align-items:stretch;min-height:40px;">'
+                    f'{_cells_html}</div>', unsafe_allow_html=True)
