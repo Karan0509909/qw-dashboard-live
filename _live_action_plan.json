@@ -145,57 +145,6 @@
   },
   {
     "Date Added": "18/02/2026",
-    "Product": "Cushions in Non-Woven Bag\nTop Contributor of Fabric Issues",
-    "Issue": "Stain / Marks",
-    "Category": "Fabric",
-    "Root Cause": "Packaging material deficiency - 70GSM non-woven protective bags inadequate to prevent contamination transfer to cushion covers during warehouse handling, staging, and delivery operations. Average defect rate: 3 units/day. Issue escalated to Ben & Miao 18/11/2025. Contributing factor: inadequate material handling practices at warehouse and delivery stages resulting in increased cost of quality (rework/cleaning) and production capacity loss (remakes).",
-    "Corrective Action": "Two-phase CAPA: (1) Packaging specification revision - increase non-woven bag material from 70GSM to 150GSM. (2) Establish improved material handling protocols for warehouse operations and delivery personnel.",
-    "Date Implemented": "",
-    "Owner": "",
-    "Due Date": "",
-    "Notes": "Packaging material upgrade will provide containment action; however, sustained defect reduction requires implementation of improved handling procedures by warehouse and delivery operations.",
-    "Status": "Under Investigation",
-    "Images": [
-      "action_1_0.png",
-      "action_1_1.png",
-      "action_11_2.png",
-      "action_11_3.png",
-      "action_11_4.jpg"
-    ]
-  },
-  {
-    "Date Added": "25/02/2026",
-    "Product": "All Products",
-    "Issue": "Stain / Marks",
-    "Category": "Fabric",
-    "Root Cause": "Equipment maintenance deficiency - conveyor bridge components in degraded condition causing contact marking on product during in-process transport",
-    "Corrective Action": "Conveyor bridge configuration redesigned and implemented. In-process QC monitoring established to verify no contact marking occurs during transport.",
-    "Date Implemented": "30 Jan 2026",
-    "Owner": "Factory ME Team",
-    "Due Date": null,
-    "Notes": "Equipment modification provides preventive measure. Manufacturing Engineering team established preventive maintenance schedule to sustain equipment condition.",
-    "Status": "Implemented",
-    "Images": [
-      "action_2_0.png",
-      "action_2_1.png"
-    ]
-  },
-  {
-    "Date Added": "04/03/2026",
-    "Product": "All Products",
-    "Issue": "Stain / Marks",
-    "Category": "Fabric",
-    "Root Cause": "Process non-conformance - loading team using red marker directly on non-woven protective bags causing ink bleed-through and contamination transfer to cushion surfaces",
-    "Corrective Action": "Immediate containment action: red marker usage discontinued. Revised work instruction: marking permitted on labels only. Random inspection audit protocol established to verify compliance.",
-    "Date Implemented": "04 March 2026",
-    "Owner": "Factory Loading Team / Jing / Tommy",
-    "Due Date": null,
-    "Notes": "Factory implementing ongoing compliance audits with permanent red marker elimination",
-    "Status": "Implemented",
-    "Images": []
-  },
-  {
-    "Date Added": "18/02/2026",
     "Product": "Jasper, Delta, Max, 1977",
     "Issue": "Missing Parts- Legs",
     "Category": "Delivery",
@@ -246,5 +195,70 @@
       "action_14_1.jpeg",
       "action_14_2.jpeg"
     ]
+  },
+  {
+    "Date Added": "18/02/2026",
+    "Product": "Cushions in Non-Woven Bag\nTop Contributor of Fabric Issues",
+    "Issue": "Stain / Marks",
+    "Category": "Fabric",
+    "Root Cause": "Packaging material deficiency - 70GSM non-woven protective bags inadequate to prevent contamination transfer to cushion covers during warehouse handling, staging, and delivery operations. Average defect rate: 3 units/day. Issue escalated to Ben & Miao 18/11/2025. Contributing factor: inadequate material handling practices at warehouse and delivery stages resulting in increased cost of quality (rework/cleaning) and production capacity loss (remakes).",
+    "Corrective Action": "Two-phase CAPA: (1) Packaging specification revision - increase non-woven bag material from 70GSM to 150GSM. (2) Establish improved material handling protocols for warehouse operations and delivery personnel.",
+    "Date Implemented": "",
+    "Owner": "",
+    "Due Date": "",
+    "Notes": "Packaging material upgrade will provide containment action; however, sustained defect reduction requires implementation of improved handling procedures by warehouse and delivery operations.",
+    "Status": "Under Investigation",
+    "Images": [
+      "action_1_0.png",
+      "action_1_1.png",
+      "action_11_2.png",
+      "action_11_3.png",
+      "action_11_4.jpg"
+    ]
+  },
+  {
+    "Date Added": "25/02/2026",
+    "Product": "All Products",
+    "Issue": "Stain / Marks",
+    "Category": "Fabric",
+    "Root Cause": "Equipment maintenance deficiency - conveyor bridge components in degraded condition causing contact marking on product during in-process transport",
+    "Corrective Action": "Conveyor bridge configuration redesigned and implemented. In-process QC monitoring established to verify no contact marking occurs during transport.",
+    "Date Implemented": "30 Jan 2026",
+    "Owner": "Factory ME Team",
+    "Due Date": null,
+    "Notes": "Equipment modification provides preventive measure. Manufacturing Engineering team established preventive maintenance schedule to sustain equipment condition.",
+    "Status": "Implemented",
+    "Images": [
+      "action_2_0.png",
+      "action_2_1.png"
+    ]
+  },
+  {
+    "Date Added": "04/03/2026",
+    "Product": "All Products",
+    "Issue": "Stain / Marks",
+    "Category": "Fabric",
+    "Root Cause": "Process non-conformance - loading team using red marker directly on non-woven protective bags causing ink bleed-through and contamination transfer to cushion surfaces",
+    "Corrective Action": "Immediate containment action: red marker usage discontinued. Revised work instruction: marking permitted on labels only. Random inspection audit protocol established to verify compliance.",
+    "Date Implemented": "04 March 2026",
+    "Owner": "Factory Loading Team / Jing / Tommy",
+    "Due Date": null,
+    "Notes": "Factory implementing ongoing compliance audits with permanent red marker elimination",
+    "Status": "Implemented",
+    "Images": []
+  },
+  {
+    "Date Added": "11/03/2026",
+    "Product": "All products",
+    "Issue": "Stain / Marks",
+    "Category": "Fabric",
+    "Root Cause": "Product getting dirty in stagging and on delivery",
+    "Corrective Action": "Stagging area is being checked, and drivers are constantly feed back to have cleaning kits and clean at the time of delivery",
+    "Date Implemented": "11/03/2026",
+    "Owner": "Warehouse and Drivers",
+    "Due Date": null,
+    "Notes": null,
+    "Status": "In Process",
+    "Images": []
   }
 ]
